@@ -1,3 +1,4 @@
+import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QFileDialog, QTextEdit, QMessageBox
 from fastboot_flasher import get_fastboot_device_info, flash_custom_rom
 
