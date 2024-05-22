@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QFileDialog, QTextEdit, QMessageBox
 from fastboot_flasher import get_fastboot_device_info, flash_custom_rom
 
-class FastbootFlasher(QWidget):
+class TundraFlasher(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -49,7 +49,7 @@ class FastbootFlasher(QWidget):
 
         self.setLayout(mainLayout)
 
-        self.setWindowTitle("Fastboot Flasher")
+        self.setWindowTitle("Tundra Flasher")
         self.resize(800, 600)
 
         # Get device info on startup
@@ -74,6 +74,6 @@ class FastbootFlasher(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = FastbootFlasher()
+    ex = TundraFlasher()
     ex.show()
     sys.exit(app.exec_())

@@ -1,10 +1,10 @@
 import sys
 from PyQt5.QtWidgets import QApplication
-from gui import FastbootFlasher
+from gui import TundraFlasher
 
 def main():
     app = QApplication(sys.argv)
-    ex = FastbootFlasher()
+    ex = TundraFlasher()
     ex.show()
     sys.exit(app.exec_())
 
