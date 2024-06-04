@@ -17,7 +17,7 @@ def get_fastboot_device_info(logText, deviceInfoText):
     deviceInfoText.append(device_info)
     logText.append(device_info)
 
-def flash_custom_rom(rom_path, logText):
+def flash_custom_rom(rom_path, logText, progress_signal):
     logText.append(f"Flashing custom ROM from {rom_path}...")
 
     # Ensure the device is connected in Fastboot mode
@@ -27,17 +27,24 @@ def flash_custom_rom(rom_path, logText):
         return
 
     # Flash the custom ROM (example commands, may vary depending on the ROM)
-    run_command(f"fastboot flash boot {rom_path}/boot.img")
-    run_command(f"fastboot flash dtbo {rom_path}/dtbo.img")
-    run_command(f"fastboot flash vendor_boot {rom_path}/vendor_boot.img")
-    run_command(f"fastboot flash vbmeta {rom_path}/vbmeta.img")
-    run_command(f"fastboot flash vbmeta_system {rom_path}/vbmeta_system.img")
-    run_command("fastboot reboot fastboot")
-    run_command(f"fastboot flash super {rom_path}/super_empty.img")
-    run_command(f"fastboot flash system {rom_path}/system.img")
-    run_command(f"fastboot flash system_ext {rom_path}/system_ext.img")
-    run_command(f"fastboot flash product {rom_path}/product.img")
-    run_command(f"fastboot flash vendor {rom_path}/vendor.img")
-    run_command("fastboot reboot")
+    commands = [
+        f"fastboot flash boot {rom_path}/boot.img",
+        f"fastboot flash dtbo {rom_path}/dtbo.img",
+        f"fastboot flash vendor_boot {rom_path}/vendor_boot.img",
+        f"fastboot flash vbmeta {rom_path}/vbmeta.img",
+        f"fastboot flash vbmeta_system {rom_path}/vbmeta_system.img",
+        "fastboot reboot fastboot",
+        f"fastboot flash super {rom_path}/super_empty.img",
+        f"fastboot flash system {rom_path}/system.img",
+        f"fastboot flash system_ext {rom_path}/system_ext.img",
+        f"fastboot flash product {rom_path}/product.img",
+        f"fastboot flash vendor {rom_path}/vendor.img",
+        "fastboot reboot"
+    ]
+
+    total_commands = len(commands)
+    for i, command in enumerate(commands):
+        logText.append(run_command(command))
+        progress_signal.emit(int((i+1) / total_commands * 100))
 
     logText.append("Flashing complete. Device is rebooting...")
