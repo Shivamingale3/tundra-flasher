@@ -62,6 +62,11 @@ class TundraFlasher(QWidget):
         romLayout.addWidget(rebootRecoveryButton)
         romLayout.addWidget(rebootBootloaderButton)
 
+        # Refresh button
+        self.refreshButton = QPushButton("Refresh Devices")
+        self.refreshButton.clicked.connect(self.refreshDevices)
+        romLayout.addWidget(self.refreshButton)
+
         # Log section
         self.logText = QTextEdit()
         self.logText.setReadOnly(True)
@@ -131,6 +136,10 @@ class TundraFlasher(QWidget):
         elif mode == "bootloader":
             run_command("fastboot reboot bootloader")
         self.logText.append(f"Rebooting to {mode} mode...")
+
+    def refreshDevices(self):
+        self.logText.append("Refreshing device list...")
+        get_fastboot_device_info(self.logText, self.deviceInfoText)
 
     def saveLog(self):
         logPath, _ = QFileDialog.getSaveFileName(self, "Save Log", "", "Text Files (*.txt);;All Files (*)")
